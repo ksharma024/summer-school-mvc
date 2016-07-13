@@ -49,6 +49,7 @@ namespace SummerSchoolMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "StudentID,FirstName,LastName,EnrollmentFee")] Student student)
         {
+            student.EnrollmentFee = 
             if (ModelState.IsValid)
             {
                 db.Students.Add(student);
