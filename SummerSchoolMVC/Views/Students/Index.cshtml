@@ -4,7 +4,7 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>@ViewBag.Message</h2>
 
 <p>
     @Html.ActionLink("Enroll", "Create")
@@ -24,6 +24,7 @@
     </tr>
 
 @foreach (var item in Model) {
+
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.FirstName)
@@ -43,3 +44,7 @@
 }
 
 </table>
+
+<div class="student-total">
+    <b class="amount-label">Total Student Enrollment:</b> <span class="amount">$@String.Format("{0:n2}", ViewBag.Barbara)</span>
+</div>

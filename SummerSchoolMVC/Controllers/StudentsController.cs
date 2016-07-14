@@ -18,6 +18,8 @@ namespace SummerSchoolMVC.Controllers
         public ActionResult Index()
         {
             // look for Index.cshtml in the Views/Students folder
+            ViewBag.Message = "Holla";
+            ViewBag.TotalEnrollmentFee = totalFees();
             return View(db.Students.ToList());
         }
 
@@ -68,6 +70,18 @@ namespace SummerSchoolMVC.Controllers
             }
             return (int)cost;
         }
+
+        public decimal totalFees()
+        {
+            ViewBag.Message = "No way";
+            decimal runningTotal = 0;
+            foreach (Student student in db.Students)
+            {
+                runningTotal = runningTotal + student.EnrollmentFee;
+            }
+            return runningTotal;
+        }
+
 
         // POST: Students/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
