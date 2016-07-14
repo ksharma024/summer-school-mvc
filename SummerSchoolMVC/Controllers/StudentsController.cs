@@ -42,14 +42,43 @@ namespace SummerSchoolMVC.Controllers
             return View();
         }
 
+
+        int calculateEnrollmentCost(string firstName, string lastName)
+        {
+            //"John Jacob Jingle Schmidt"
+            //"Larry Potter"
+            //"Bob"
+
+            double cost = 200;
+
+            // POTter, Potter, potter, POTTER
+            if (lastName.ToLower() == "potter")
+            {
+                cost *= 0.5;
+            } // SELECT COUNT(*) FROM Students
+            int numberOfStudents = db.Students.Count();
+
+            if (lastName.ToLower() == "longbottom" && numberOfStudents <= 10)
+            {
+                cost = 0;
+            }
+            if (firstName.ToLower()[0] == lastName.ToLower()[0])
+            {
+                cost = 0.9 * cost;
+            }
+            return (int)cost;
+        }
+
         // POST: Students/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "StudentID,FirstName,LastName,EnrollmentFee")] Student student)
+        public ActionResult Create([Bind(Include = "StudentID,FirstName,LastName")] Student student)
         {
-            student.EnrollmentFee = 
+            // TODO: calculate enrollment fee
+            student.EnrollmentFee = calculateEnrollmentCost(student.FirstName, student.LastName);
+
             if (ModelState.IsValid)
             {
                 db.Students.Add(student);
