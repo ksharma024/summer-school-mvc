@@ -14,6 +14,8 @@ namespace SummerSchoolMVC.Controllers
     {
         private Entities db = new Entities();
 
+        private int MaximumEnrollment = 15;
+
         // GET: Students
         public ActionResult Index(string search)
         {
@@ -34,7 +36,8 @@ namespace SummerSchoolMVC.Controllers
             }
 
             ViewBag.TotalEnrollmentFee = totalFees();
-            ViewBag.MaximumEnrollment = 15;
+            ViewBag.MaximumEnrollment = MaximumEnrollment;
+            ViewBag.CurrentEnrollment = db.Students.Count();
 
             return View(students);
         }
@@ -57,6 +60,10 @@ namespace SummerSchoolMVC.Controllers
         // GET: Students/Create
         public ActionResult Create()
         {
+            if (db.Students.Count() >= MaximumEnrollment)
+            {
+                return RedirectToAction("Index");
+            }
             return View();
         }
 
@@ -105,6 +112,18 @@ namespace SummerSchoolMVC.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create([Bind(Include = "StudentID,FirstName,LastName")] Student student)
         {
+            if (db.Students.Count() >= MaximumEnrollment)
+            {
+                return RedirectToAction("Index");
+            }
+
+            if (student.LastName.ToLower() == "malfoy")
+            {
+                return View("Malfoy");
+            }
+
+            string combinedName = (student.FirstName + student.LastName).ToLower();
+
             // TODO: calculate enrollment fee
             student.EnrollmentFee = calculateEnrollmentCost(student.FirstName, student.LastName);
 
@@ -112,6 +131,12 @@ namespace SummerSchoolMVC.Controllers
             {
                 db.Students.Add(student);
                 db.SaveChanges();
+
+                if (combinedName.Contains("riddle") || combinedName.Contains("voldemort"))
+                {
+                    return View("Voldemort");
+                }
+
                 return RedirectToAction("Index");
             }
 
