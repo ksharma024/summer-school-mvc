@@ -18,7 +18,6 @@ namespace SummerSchoolMVC.Controllers
         public ActionResult Index()
         {
             // look for Index.cshtml in the Views/Students folder
-            ViewBag.Message = "Holla";
             ViewBag.TotalEnrollmentFee = totalFees();
             return View(db.Students.ToList());
         }
@@ -73,7 +72,6 @@ namespace SummerSchoolMVC.Controllers
 
         public decimal totalFees()
         {
-            ViewBag.Message = "No way";
             decimal runningTotal = 0;
             foreach (Student student in db.Students)
             {
