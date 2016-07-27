@@ -7,7 +7,14 @@
 <h2>@ViewBag.Message</h2>
 
 <p>
-    @Html.ActionLink("Enroll", "Create")
+    @if (Model.Count() < ViewBag.MaximumEnrollment)
+    {
+        <a class="btn btn-link" href="@Url.Action("Create")">Enroll</a>
+    }
+    else
+    {
+        <span>Enrollment is closed.</span>
+    }
 </p>
 
 @using (Html.BeginForm())
@@ -53,5 +60,5 @@
 </table>
 
 <div class="student-total">
-    <b class="amount-label">Total Student Enrollment:</b> <span class="amount">$@String.Format("{0:n2}", ViewBag.TotalEnrollmentFee)</span>
+    <b class="amount-label">Total Student Enrollment:</b> <span class="amount">@String.Format("{0:C}", ViewBag.TotalEnrollmentFee)</span>
 </div>

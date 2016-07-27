@@ -34,6 +34,8 @@ namespace SummerSchoolMVC.Controllers
             }
 
             ViewBag.TotalEnrollmentFee = totalFees();
+            ViewBag.MaximumEnrollment = 15;
+
             return View(students);
         }
 
