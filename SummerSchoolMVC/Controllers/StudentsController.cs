@@ -42,20 +42,6 @@ namespace SummerSchoolMVC.Controllers
             return View(students);
         }
 
-        // GET: Students/Details/5
-        public ActionResult Details(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            Student student = db.Students.Find(id);
-            if (student == null)
-            {
-                return HttpNotFound();
-            }
-            return View(student);
-        }
 
         // GET: Students/Create
         public ActionResult Create()
