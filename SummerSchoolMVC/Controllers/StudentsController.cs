@@ -15,11 +15,26 @@ namespace SummerSchoolMVC.Controllers
         private Entities db = new Entities();
 
         // GET: Students
-        public ActionResult Index()
+        public ActionResult Index(string search)
         {
             // look for Index.cshtml in the Views/Students folder
+
+            // select ALL the students
+            // so we can later filter optionally
+            var students = from item in db.Students
+                           select item;
+
+            // filter
+            if (!String.IsNullOrEmpty(search))
+            {
+                students = from item in students
+                           where item.LastName.Contains(search) ||
+                                 item.FirstName.Contains(search)
+                           select item;
+            }
+
             ViewBag.TotalEnrollmentFee = totalFees();
-            return View(db.Students.ToList());
+            return View(students);
         }
 
         // GET: Students/Details/5
